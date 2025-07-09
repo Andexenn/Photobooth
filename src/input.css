@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+body{
+    @apply w-full h-screen p-5 bg-[#f9fbf2];
+}
+
+.logo{
+    @apply flex items-center gap-2 text-4xl;
+}
+
