@@ -29,55 +29,64 @@
         <h1 class="font-[Audiowide]">Photobooth</h1>
     </div>
 
-    <div data-aos="fade-down" class="font-[montserrat] controls flex items-center 
-     justify-center mt-10 gap-10 border h-45 w-165 mx-auto rounded-2xl shadow-lg">
+    <div data-aos="fade-down" class="controls">
         <div class="time-delay">
             <!--* use dropdown at this one -->
-            <label class="font-[500]" for="delay">Delay</label>
-            <select class="border rounded-md" name="delay" id="delay">
-                <option value="3">3s</option>
-                <option value="5">5s</option>
-                <option value="10">10s</option>
-            </select>
+            <div class="delay-wrapper">
+                <label class="font-[500]" for="delay">Delay</label>
+                <select class="border rounded-md" name="delay" id="delay">
+                    <option value="0">0s</option>
+                    <option value="3">3s</option>
+                    <option value="5">5s</option>
+                    <option value="10">10s</option>
+                </select>
+            </div>
+
+            <span class="delay-display">0</span>
         </div>
 
-        <div class="rgb flex flex-col gap-5">
-            <div class="red flex items-center">
-                <label class="text-red-600 mr-3 font-[500]" for="rmin">Red min:</label>
+        <div class="rgb ">
+            <div class="red">
+                <label class="text-red-600" for="rmin">Red min:</label>
                 <input class="mr-4" type="range" min=0 max=255 name="rmin">
-                <label class="text-red-600 mr-3 font-[500]" for="rmax">Red max:</label>
+                <label class="text-red-600" for="rmax">Red max:</label>
                 <input type="range" min=0 max=255 name="rmax">
             </div>
 
-            <div class="green flex items-center">
-                <label class="text-green-600 font-[500] mr-3" for="gmin">Green min:</label>
+            <div class="green">
+                <label class="text-green-600" for="gmin">Green min:</label>
                 <input class="mr-3" type="range" min=0 max=255 name="gmin">
-                <label class="text-green-600 font-[500] mr-3" for="gmax">Green max:</label>
+                <label class="text-green-600" for="gmax">Green max:</label>
                 <input type="range" min=0 max=255 name="gmax">
             </div>
 
             <div class="blue">
-                <label class="text-blue-600 font-[500] mr-3" for="bmin">Blue min:</label>
+                <label class="text-blue-600" for="bmin">Blue min:</label>
                 <input class="mr-3" type="range" min=0 max=255 name="bmin">
-                <label class="text-blue-600 font-[500] mr-3" for="bmax">Blue max:</label>
+                <label class="text-blue-600" for="bmax">Blue max:</label>
                 <input type="range" min=0 max=255 name="bmax">
             </div>
 
         </div>
     </div>
 
-    <canvas class="photo mx-auto size-135 object-contain relative -top-10" data-aos="fade-up"></canvas>
+    <canvas class="photo" data-aos="fade-up"></canvas>
     <video class="player" hidden></video>
+
+    <div class="flex justify-center" data-aos="flip-up">
+        <button class="capture" onclick="takePhoto()">Start Capture</button>
+    </div>
+
     <div class="strip"></div>
 
-
+    
 
     <audio class="snap" src="./snap.mp3" hidden></audio>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         AOS.init({
-            offset: 300,
+            offset: 50,
             once: true,
             duration: 1000,
             delay: 50,

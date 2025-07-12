@@ -3,6 +3,7 @@ const canvas = document.querySelector(".photo");
 const ctx = canvas.getContext("2d");
 const strip = document.querySelector(".strip");
 const snap = document.querySelector(".snap");
+const button = document.querySelector(".capture");
 
 function getVideo() {
   navigator.mediaDevices
@@ -37,19 +38,48 @@ function paintToCanvas() {
   }, 16);
 }
 
+function countdown() {
+  return new Promise((resolve, reject) => {
+    const delay = parseInt(document.querySelector("#delay").value, 10);
+    if (isNaN(delay) || delay < 0) return reject("Invalid delay");
+    if (delay === 0) resolve();
+    console.log(delay);
+
+    let cnt = 0;
+
+    span = document.querySelector(".delay-display");
+    const intervalID = setInterval(() => {
+      console.log("haha");
+      if (cnt > delay) {
+        clearInterval(intervalID);
+        resolve();
+      }
+      span.innerHTML = cnt;
+      cnt++;
+    }, 1000);
+  });
+}
+
 function takePhoto() {
   //* play the sound
-  snap.currentTime = 0;
-  snap.play();
+  countdown()
+    .then(() => {
+      span.innerHTML = 0;
+      snap.currentTime = 0;
+      snap.play();
 
-  //* take the data out of the canvas
-  const data = canvas.toDataURL("image/jpeg");
-  const link = document.createElement("a");
-  link.href = data;
-  link.setAttribute("download", "handsome");
-  link.textContent = "Download Image";
-  link.innerHTML = `<img src="${data}" alt="Handsome Image" />`;
-  strip.insertBefore(link, strip.firstChild);
+      //* take the data out of the canvas
+      const data = canvas.toDataURL("image/jpeg");
+      const link = document.createElement("a");
+      link.href = data;
+      link.setAttribute("download", "handsome");
+      link.textContent = "Download Image";
+      link.innerHTML = `<img src="${data}" alt="Beautiful Image" />`;
+      strip.insertBefore(link, strip.firstChild);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
 function redEffect(pixels) {
@@ -73,7 +103,7 @@ function rgbSplits(pixels) {
 function greenScreen(pixels) {
   const levels = {};
 
-  document.querySelectorAll('.rgb input').forEach((input) => {
+  document.querySelectorAll(".rgb input").forEach((input) => {
     levels[input.name] = input.value;
   });
 
@@ -83,12 +113,14 @@ function greenScreen(pixels) {
     blue = pixels.data[i + 2];
     alpha = pixels.data[i + 3];
 
-    if (red >= levels.rmin
-      && green >= levels.gmin
-      && blue >= levels.bmin
-      && red <= levels.rmax
-      && green <= levels.gmax
-      && blue <= levels.bmax) {
+    if (
+      red >= levels.rmin &&
+      green >= levels.gmin &&
+      blue >= levels.bmin &&
+      red <= levels.rmax &&
+      green <= levels.gmax &&
+      blue <= levels.bmax
+    ) {
       // take it out!
       pixels.data[i + 3] = 0;
     }
